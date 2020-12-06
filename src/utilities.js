@@ -2670,7 +2670,7 @@ export const drawMesh = (predictions, ctx) => {
         const points = [
           TRIANGULATION[i * 3],
           TRIANGULATION[i * 3 + 1],
-          TRIANGULATION[i * 3 + 2],u
+          TRIANGULATION[i * 3 + 2],
         ].map((index) => keypoints[index]);
         //  Draw triangle
         drawPath(ctx, points, true);
