@@ -9,10 +9,14 @@
 
 // Face Mesh - https://github.com/tensorflow/tfjs-models/tree/master/facemesh
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import "./App.css";
 import * as tf from "@tensorflow/tfjs";
-import * as facemesh from "@tensorflow-models/facemesh";
+// OLD MODEL
+//import * as facemesh from "@tensorflow-models/facemesh";
+
+// NEW MODEL
+import * as facemesh from "@tensorflow-models/face-landmarks-detection";
 import Webcam from "react-webcam";
 import { drawMesh } from "./utilities";
 
@@ -22,14 +26,16 @@ function App() {
 
   //  Load posenet
   const runFacemesh = async () => {
-    const net = await facemesh.load({
-      inputResolution: { width: 640, height: 480 },
-      scale: 0.8,
-    });
-    //
+    // OLD MODEL
+    // const net = await facemesh.load({
+    //   inputResolution: { width: 640, height: 480 },
+    //   scale: 0.8,
+    // });
+    // NEW MODEL
+    const net = await facemesh.load(facemesh.SupportedPackages.mediapipeFacemesh);
     setInterval(() => {
       detect(net);
-    }, 100);
+    }, 10);
   };
 
   const detect = async (net) => {
@@ -52,16 +58,19 @@ function App() {
       canvasRef.current.height = videoHeight;
 
       // Make Detections
-      const face = await net.estimateFaces(video);
+      // OLD MODEL
+      //       const face = await net.estimateFaces(video);
+      // NEW MODEL
+      const face = await net.estimateFaces({input:video});
       console.log(face);
 
       // Get canvas context
       const ctx = canvasRef.current.getContext("2d");
-      drawMesh(face, ctx);
+      requestAnimationFrame(()=>{drawMesh(face, ctx)});
     }
   };
 
-  runFacemesh();
+  useEffect(()=>{runFacemesh()}, []);
 
   return (
     <div className="App">
