@@ -45,13 +45,12 @@ function App() {
       webcamRef.current.video.readyState === 4
     ) {
       // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
+      const {video} = webcamRef.current;
+      const { videoWidth, videoHeight } = video;
 
       // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
+      video.width = videoWidth;
+      video.height = videoHeight;
 
       // Set canvas width
       canvasRef.current.width = videoWidth;
