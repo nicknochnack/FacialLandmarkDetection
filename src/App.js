@@ -46,8 +46,7 @@ function App() {
     ) {
       // Get Video Properties
       const {video} = webcamRef.current;
-      const { videoWidth } = video;
-      const { videoHeight } = video;
+      const { videoWidth, videoHeight } = video;
 
       // Set video width
       video.width = videoWidth;
